@@ -10,7 +10,14 @@ function setup() {
 
   // More platforms above it
   for (let i = 1; i < 6; i++) {
-    platforms.push(new Platform(random(width - 80), 570 - i * 100));
+    const x = random(width - 80);
+    const y = 570 - i * 100;
+
+    if (random(1) < 0.3) {
+      platforms.push(new MovingPlatform(x, y));
+    } else {
+      platforms.push(new Platform(x, y));
+    }
   }
 
   character.jump();
@@ -21,6 +28,7 @@ function draw() {
   character.update();
 
   for (let platform of platforms) {
+    platform.update();
     if (character.landsOn(platform)) {
       character.jump();
     }
